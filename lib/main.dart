@@ -42,6 +42,7 @@ class _MyHomePageState extends State<MyHomePage> {
         portalUri: Uri.parse('https://www.arcgis.com'),
         clientId: 'T0A3SudETrIQndd2',
         redirectUri: Uri.parse('my-ags-flutter-app://auth'),
+        preferPrivateWebBrowserSession: true,
       )
   );
 
