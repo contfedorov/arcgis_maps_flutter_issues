@@ -1,6 +1,8 @@
 import 'package:arcgis_maps/arcgis_maps.dart';
 import 'package:flutter/material.dart';
 
+import 'TokenRepository.dart';
+
 void main() {
   runApp(const MyApp());
 }
@@ -35,6 +37,14 @@ class _MyHomePageState extends State<MyHomePage> {
 
   final _mapViewController = ArcGISMapView.createController();
 
+  TokenRepository tokenRepository = TokenRepository(
+      oAuthUserConfiguration: OAuthUserConfiguration(
+        portalUri: Uri.parse('https://www.arcgis.com'),
+        clientId: 'T0A3SudETrIQndd2',
+        redirectUri: Uri.parse('my-ags-flutter-app://auth'),
+      )
+  );
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -44,6 +54,38 @@ class _MyHomePageState extends State<MyHomePage> {
       ),
       body: Column(
         children: [
+          ElevatedButton(
+              onPressed: () async {
+                print("Getting token");
+
+                // case 1: single request for token
+                tokenRepository.getToken().then((accessToken) {
+                  print("accessToken: $accessToken");
+                }).onError((err, _) {
+                  print("err: $err");
+                });
+
+
+                // // case 2: multiple concurrent requests for token
+                // tokenRepository.getTokenConcurrently().then((accessToken) {
+                //   print("accessToken: $accessToken");
+                // }).onError((err, _) {
+                //   print("err: $err");
+                // });
+                // tokenRepository.getTokenConcurrently().then((accessToken) {
+                //   print("accessToken2: $accessToken");
+                // }).onError((err, _) {
+                //   print("err2: $err");
+                // });
+                //
+                // tokenRepository.getTokenConcurrently().then((accessToken) {
+                //   print("accessToken3: $accessToken");
+                // }).onError((err, _) {
+                //   print("err3: $err");
+                // });
+              },
+              child: const Text("Get token")
+          ),
           Expanded(
             child: ArcGISMapView(
               controllerProvider: () => _mapViewController,
