@@ -1,4 +1,5 @@
 # Miscellaneous
+arcgis_maps_core
 *.class
 *.log
 *.pyc
