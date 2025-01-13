@@ -1,3 +1,4 @@
+import 'package:arcgis_maps/arcgis_maps.dart';
 import 'package:flutter/material.dart';
 
 void main() {
@@ -31,6 +32,9 @@ class MyHomePage extends StatefulWidget {
 }
 
 class _MyHomePageState extends State<MyHomePage> {
+
+  final _mapViewController = ArcGISMapView.createController();
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -38,13 +42,14 @@ class _MyHomePageState extends State<MyHomePage> {
         backgroundColor: Theme.of(context).colorScheme.inversePrimary,
         title: Text(widget.title),
       ),
-      body: Center(
-        child: Column(
-          mainAxisAlignment: MainAxisAlignment.center,
-          children: <Widget>[
-
-          ],
-        ),
+      body: Column(
+        children: [
+          Expanded(
+            child: ArcGISMapView(
+              controllerProvider: () => _mapViewController,
+            ),
+          ),
+        ],
       ),
       floatingActionButton: const FloatingActionButton(
         onPressed: null,
